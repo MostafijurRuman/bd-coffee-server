@@ -40,7 +40,22 @@ async function run() {
         const result = await Coffees.find().toArray();
         res.send(result);
     })
-    
+
+    // Get a specific coffee by id
+    app.get('/coffees/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const coffee = await Coffees.findOne(query)
+        res.send(coffee)
+    })
+
+    // Delete by id one at time
+     app.delete('/coffees/:id',async(req,res)=>{
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const result = await Coffees.deleteOne(query)
+        res.send(result)
+    })
 
 		// Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
